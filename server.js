@@ -4,6 +4,8 @@ const mongoose = require("mongoose")
 const cors = require("cors")
 const db = require("./config/db")
 const personRoutes = require("./routes/person_routes")
+const userRoutes = require("./routes/user_routes")
+const placeRoutes = require("./routes/place_routes")
 const requestLogger = require("./lib/request_logger")
 const personSeed = require("./lib/person_seed")
 
@@ -25,15 +27,20 @@ mongoose.connect(db, {
 
 const app = express();
 
+
 app.use(cors({ origin: `http://127.0.0.1:5501` }))
 
 //sending json
 // need to be able to accept json
 app.use(express.json())
+app.use(requestLogger)
 
 app.use(personRoutes)
-app.use(requestLogger)
 app.use("/seed", personSeed)
+app.use(userRoutes)
+app.use(placeRoutes)
+
+
 
 
 
